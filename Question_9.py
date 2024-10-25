@@ -36,7 +36,9 @@ if page == "Home":
     st.write("This app helps you explore Covid-19 status in 2020.")
     from PIL import Image
     flag = Image.open('Flag_of_Mexico.svg.png')
+    #shrdc = Image.open('shrdc_logo (2).png')
     st.image(flag)
+    #st.image(shrdc, use_column_width=True)
 
 # Health Charts page
 elif page == "Health Charts":
@@ -82,25 +84,25 @@ elif page == "Health Charts":
 
 
 # Semi-circle donut chart using Plotly
-with tabs[2]:
-    st.subheader("Cases by Sex")
+    with tabs[2]:
+        st.subheader("Cases by Sex")
+        
+        # Plotly Pie chart for gender distribution
+        fig = px.pie(
+            df, 
+            names=labels, 
+            values=sex_counts.values,
+            hole=0.4,  # Creates a donut effect
+        )
+        
+        # Rotate to show as a half circle and hide upper half
+        fig.update_traces(textinfo='percent+label', rotation=180, pull=[0.1, 0], 
+                          marker=dict(colors=['#636EFA', '#EF553B']))
+        fig.update_layout(
+            title_text="Gender Distribution (Semi-circle Donut Chart)",
+            showlegend=True,
+        )
     
-    # Plotly Pie chart for gender distribution
-    fig = px.pie(
-        df, 
-        names=labels, 
-        values=sex_counts.values,
-        hole=0.4,  # Creates a donut effect
-    )
+        # Display the Plotly figure
+        st.plotly_chart(fig)
     
-    # Rotate to show as a half circle and hide upper half
-    fig.update_traces(textinfo='percent+label', rotation=180, pull=[0.1, 0], 
-                      marker=dict(colors=['#636EFA', '#EF553B']))
-    fig.update_layout(
-        title_text="Gender Distribution (Semi-circle Donut Chart)",
-        showlegend=True,
-    )
-
-    # Display the Plotly figure
-    st.plotly_chart(fig)
-
